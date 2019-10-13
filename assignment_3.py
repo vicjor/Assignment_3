@@ -67,13 +67,33 @@ print(dictionary)
 stopwords = codecs.open("stopwords.txt", "r", "utf-8")
 stopwords = stopwords.readlines()
 stopwords = stopwords[0].split(",")
-# Stopwords er nå en liste med alle ordene
+
+# Stemmer stopwords
+def stem_stopwords(stopwords):
+    for i in range (len(stopwords)):
+        stopwords[i] = stemmer.stem(stopwords[i])
+
+stem_stopwords(stopwords)
+# Stopwords er nå en liste med alle ordene og er stemmet
+
 stop_ids = []
-#
-for word in stopwords:
-    print(word)
-    id = dictionary.token2id[word]
-    stop_ids.append(id)
 
-dictionary.filter_tokens(stop_ids)
+# Fjerner alle stoppordene fra dictionary
+def remove_stopword(stopwords):
+    for word in stopwords:
+        try:
+            id = dictionary.token2id[word]
+            stop_ids.append(id)
+        except KeyError:
+            continue
+    dictionary.filter_tokens(stop_ids)
 
+remove_stopword(stopwords)
+
+
+
+
+
+
+def main():
+    return
